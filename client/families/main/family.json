@@ -2,6 +2,7 @@
   "$description": "Starter family: a neutral grayscale with one blue, chosen only because it passes every contrast check. Replace the palette with the client's brand at kickoff.",
   "settings": {
     "name": "Main",
+    "industry": [],
     "dynamic-color": "opt-in",
     "dynamic-color-reason": "Default for a new client; decide per brand.",
     "radius-component": "md",

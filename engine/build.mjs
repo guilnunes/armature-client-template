@@ -60,11 +60,50 @@ for (const f of fs.existsSync(appsDir) ? fs.readdirSync(appsDir).filter((x) => x
 }
 
 const a11y = foundation.a11y;
+const baseFoundationRef = () => foundation;
+const INDUSTRIES = readEngine("industries.json").industries;
 const report = [];
+const ruleChecks = [];
 let failures = 0;
 
+// Effective rules for a family: the strictest of engine, owner and every declared industry.
+function effectiveRules(settings, foundation = baseFoundationRef()) {
+  const ids = [].concat(settings.industry || []);
+  const unknown = ids.filter((i) => !INDUSTRIES[i]);
+  if (unknown.length) throw new Error(`Unknown industry: ${unknown.join(", ")}. Known: ${Object.keys(INDUSTRIES).join(", ")}`);
+  const r = {
+    "contrast-text-min": a11y["contrast-text-min"].$value,
+    "contrast-ui-min": a11y["contrast-ui-min"].$value,
+    "font-size-min": px(foundation["font-size"].caption.$value),
+    "touch-min": px(foundation.size["touch-min"].$value),
+    "dynamic-color": ["never", "opt-in", "default"],
+  };
+  for (const id of ids) {
+    const ir = INDUSTRIES[id].rules;
+    if (ir["contrast-text-min"]) r["contrast-text-min"] = Math.max(r["contrast-text-min"], ir["contrast-text-min"]);
+    if (ir["contrast-ui-min"]) r["contrast-ui-min"] = Math.max(r["contrast-ui-min"], ir["contrast-ui-min"]);
+    if (ir["font-size-min"]) r["font-size-min"] = Math.max(r["font-size-min"], px(ir["font-size-min"]));
+    if (ir["touch-min"]) r["touch-min"] = Math.max(r["touch-min"], px(ir["touch-min"]));
+    if (ir["dynamic-color"]) r["dynamic-color"] = r["dynamic-color"].filter((d) => ir["dynamic-color"].includes(d));
+  }
+  return { ids, rules: r };
+}
+
+const baseFoundation = foundation;
 for (const t of targets) {
   const family = read(`families/${t.family}/family.json`);
+  // a family may adjust the type scale, spacing or sizes (never a11y)
+  if (family.foundation?.a11y) throw new Error(`${t.family}: families may not change a11y; declare an industry instead`);
+  t.foundation = deepMerge(baseFoundation, family.foundation);
+  const foundation = t.foundation;
+  const { ids: industryIds, rules } = effectiveRules(family.settings, foundation);
+  t.industries = industryIds;
+  t.rules = rules;
+  const check = (name, ok, detail) => { if (!ok) failures++; ruleChecks.push({ target: t.id, name, detail, status: ok ? "ok" : "FAIL" }); };
+  check("font-size-min", px(foundation["font-size"].caption.$value) >= rules["font-size-min"], `smallest text ${foundation["font-size"].caption.$value}, rule ${rules["font-size-min"]}px`);
+  check("touch-min", px(foundation.size["touch-min"].$value) >= rules["touch-min"], `touch-min ${foundation.size["touch-min"].$value}, rule ${rules["touch-min"]}px`);
+  check("dynamic-color", rules["dynamic-color"].includes(family.settings["dynamic-color"]), `policy "${family.settings["dynamic-color"]}", allowed ${rules["dynamic-color"].join("/")}`);
+
   const modes = {};
   for (const mode of ["light", "dark"]) {
     const merged = { ...family.theme[mode], ...(t.app?.theme?.[mode] || {}) };
@@ -72,44 +111,66 @@ for (const t of targets) {
     if (missing.length) throw new Error(`${t.id}/${mode} missing roles: ${missing.join(", ")}`);
     modes[mode] = Object.fromEntries(ROLES.map((r) => [r, resolve(merged[r], family).toUpperCase()]));
 
-    // contrast checks
+    const textMin = rules["contrast-text-min"], uiMin = rules["contrast-ui-min"];
+    const target = Math.max(a11y["contrast-body-target"].$value, textMin);
     for (const [role, def] of Object.entries(contract.roles)) {
       const c = modes[mode];
       if (def.pairs) {
         const ratio = contrast(c[role], c[def.pairs]);
         const isBody = role === "background" || role === "card";
-        const min = a11y["contrast-text-min"].$value;
-        const target = a11y["contrast-body-target"].$value;
-        const status = ratio < min ? "FAIL" : isBody && ratio < target ? "WARN" : "ok";
+        const status = ratio < textMin ? "FAIL" : isBody && ratio < target ? "WARN" : "ok";
         if (status === "FAIL") failures++;
-        report.push({ target: t.id, mode, pair: `${def.pairs} on ${role}`, ratio: ratio.toFixed(2), status });
+        report.push({ target: t.id, mode, pair: `${def.pairs} on ${role}`, ratio: ratio.toFixed(2), min: textMin, status });
       }
       if (def.ui) {
         const ratio = contrast(c[role], c.background);
-        const status = ratio < a11y["contrast-ui-min"].$value ? "FAIL" : "ok";
+        const status = ratio < uiMin ? "FAIL" : "ok";
         if (status === "FAIL") failures++;
-        report.push({ target: t.id, mode, pair: `${role} vs background`, ratio: ratio.toFixed(2), status });
+        report.push({ target: t.id, mode, pair: `${role} vs background`, ratio: ratio.toFixed(2), min: uiMin, status });
       }
     }
     // muted-foreground must also read on the plain background, not only on muted
     const mf = contrast(modes[mode]["muted-foreground"], modes[mode].background);
-    if (mf < a11y["contrast-text-min"].$value) failures++;
-    report.push({ target: t.id, mode, pair: "muted-foreground on background", ratio: mf.toFixed(2), status: mf < 4.5 ? "FAIL" : "ok" });
+    const mfStatus = mf < textMin ? "FAIL" : "ok";
+    if (mfStatus === "FAIL") failures++;
+    report.push({ target: t.id, mode, pair: "muted-foreground on background", ratio: mf.toFixed(2), min: textMin, status: mfStatus });
   }
   t.modes = modes;
   t.settings = family.settings;
 }
 
-// contrast report
-const lines = ["| Target | Mode | Pair | Ratio | Status |", "| --- | --- | --- | --- | --- |",
-  ...report.map((r) => `| ${r.target} | ${r.mode} | ${r.pair} | ${r.ratio} | ${r.status} |`)];
-write("docs/contrast-report.md", `Generated by Armature engine ${ENGINE_VERSION}. Text minimum 4.5:1, body text target 7:1, UI boundaries 3:1.\n\n${lines.join("\n")}\n`);
-console.log(`Contrast: ${report.length} checks, ${failures} failures, ${report.filter((r) => r.status === "WARN").length} warnings`);
-if (failures) { report.filter((r) => r.status === "FAIL").forEach((r) => console.error("FAIL", r)); process.exit(1); }
+// contrast and rules report
+const lines = ["| Target | Mode | Pair | Ratio | Minimum | Status |", "| --- | --- | --- | --- | --- | --- |",
+  ...report.map((r) => `| ${r.target} | ${r.mode} | ${r.pair} | ${r.ratio} | ${r.min} | ${r.status} |`)];
+const ruleLines = ["| Target | Rule | Detail | Status |", "| --- | --- | --- | --- |",
+  ...ruleChecks.map((r) => `| ${r.target} | ${r.name} | ${r.detail} | ${r.status} |`)];
+write("docs/contrast-report.md", `Generated by Armature engine ${ENGINE_VERSION}. Minimums come from the engine, the owner and each family's industries (strictest wins).\n\n## Contrast\n\n${lines.join("\n")}\n\n## Industry rules\n\n${ruleLines.join("\n")}\n`);
+
+// industry guidelines per family
+const famSeen = new Map();
+for (const t of targets) if (!famSeen.has(t.settings.name)) famSeen.set(t.settings.name, t);
+const guide = [`Generated by Armature engine ${ENGINE_VERSION} from engine/industries.json. Checkable rules are enforced by the build; guidelines are for designers, developers, reviewers and agents.`, ""];
+for (const [name, t] of famSeen) {
+  guide.push(`## ${name}`, "");
+  if (!t.industries.length) { guide.push("No industry declared: engine defaults apply.", ""); continue; }
+  for (const id of t.industries) {
+    const ind = INDUSTRIES[id];
+    guide.push(`### ${ind.name} (${id})`, "", ...ind.guidelines.map((g) => `- ${g}`), "");
+  }
+  const r = t.rules;
+  guide.push(`Effective rules: text contrast ${r["contrast-text-min"]}:1, UI contrast ${r["contrast-ui-min"]}:1, smallest text ${r["font-size-min"]}px, touch targets ${r["touch-min"]}px, dynamic color ${r["dynamic-color"].join(" or ")}.`, "");
+}
+write("docs/industry-rules.md", guide.join("\n"));
+
+const warns = report.filter((r) => r.status === "WARN").length;
+console.log(`Checks: ${report.length} contrast, ${ruleChecks.length} industry rules, ${failures} failures, ${warns} warnings`);
+if (failures) { [...report, ...ruleChecks].filter((r) => r.status === "FAIL").forEach((r) => console.error("FAIL", JSON.stringify(r))); process.exit(1); }
 if (CHECK_ONLY) process.exit(0);
 
 // ---------- emitters ----------
-const sp = foundation.space, fs_ = foundation["font-size"], rad = foundation.radius, size = foundation.size;
+let sp, fs_, rad, size;
+const useFoundation = (f) => { sp = f.space; fs_ = f["font-size"]; rad = f.radius; size = f.size; };
+useFoundation(foundation);
 const ease = (k) => `cubic-bezier(${foundation.motion.easing[k].$value.join(", ")})`;
 const enterEase = sig.easing ? `cubic-bezier(${sig.easing.value.join(", ")})` : ease("standard");
 const focusW = sig.focus?.width || size["focus-width-default"].$value;
@@ -298,9 +359,10 @@ ${Object.entries(fs_).filter(([k]) => !k.startsWith("$")).map(([k, v]) => `     
 }
 
 for (const t of targets) {
+  useFoundation(t.foundation);
   write(`dist/web/${t.id}.css`, webCss(t));
   write(`dist/android/${t.id}/ArmatureTheme.kt`, compose(t));
   write(`dist/ios/${t.id}/Armature.swift`, swift(t));
-  write(`dist/tokens/${t.id}.json`, JSON.stringify({ engine: ENGINE_VERSION, owner: owner.name, target: t.id, family: t.settings.name, settings: t.settings, signatures: sig, color: t.modes, foundation }, null, 2));
+  write(`dist/tokens/${t.id}.json`, JSON.stringify({ engine: ENGINE_VERSION, owner: owner.name, target: t.id, family: t.settings.name, settings: t.settings, industries: t.industries.map((id) => ({ id, ...INDUSTRIES[id] })), rules: t.rules, signatures: sig, color: t.modes, foundation: t.foundation }, null, 2));
 }
 console.log(`Built ${targets.length} targets: ${targets.map((t) => t.id).join(", ")}`);

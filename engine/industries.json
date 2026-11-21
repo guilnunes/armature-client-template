@@ -1,0 +1,100 @@
+{
+  "$description": "Industries and their rules. A family declares one or more industries in settings.industry. The build applies the strictest value across the engine, the owner and every declared industry, and fails if the family breaks a checkable rule. Guidelines are not machine checked; they are written to <owner>/docs/industry-rules.md and into dist/tokens for agents and reviewers. Rules can only make things stricter than the engine.",
+  "checkable-rules": {
+    "contrast-text-min": "Minimum contrast for every text pair, muted text included (4.5 is WCAG AA, 7 is AAA)",
+    "contrast-ui-min": "Minimum contrast for control boundaries, focus rings and meaningful icons",
+    "font-size-min": "Smallest text size allowed (the caption step of the type scale)",
+    "touch-min": "Smallest tappable target",
+    "dynamic-color": "Android wallpaper color policies the family may use"
+  },
+  "industries": {
+    "health": {
+      "name": "Health and care",
+      "rules": { "contrast-text-min": 7, "contrast-ui-min": 3, "font-size-min": "16px", "touch-min": "48px", "dynamic-color": ["never", "opt-in"] },
+      "guidelines": [
+        "Aim for WCAG 2.2 AAA wherever it is achievable, not only for contrast.",
+        "Status (normal, attention, critical) is always shown with an icon and words, never color alone, and status colors are never replaced by wallpaper colors.",
+        "Clinical values always carry their unit and reference range.",
+        "Destructive and irreversible actions (deleting records, sending prescriptions) require explicit confirmation that names what will happen.",
+        "Plan for offline and poor connectivity: show sync state and never lose input.",
+        "Plain language at about an 8th grade reading level for patient facing text."
+      ]
+    },
+    "finance": {
+      "name": "Finance and money",
+      "rules": { "contrast-text-min": 4.5, "contrast-ui-min": 3, "font-size-min": "14px", "touch-min": "48px", "dynamic-color": ["never", "opt-in"] },
+      "guidelines": [
+        "Amounts use tabular figures and always show the currency.",
+        "Positive and negative values differ by sign and words, not color alone.",
+        "Money movement needs a review step and a clear confirmation.",
+        "Sensitive values can be hidden with one tap."
+      ]
+    },
+    "education": {
+      "name": "Education and learning",
+      "rules": { "contrast-text-min": 4.5, "contrast-ui-min": 3, "font-size-min": "14px", "touch-min": "48px", "dynamic-color": ["never", "opt-in", "default"] },
+      "guidelines": [
+        "Progress is visible and saved automatically.",
+        "Feedback on answers is immediate, specific and never shaming.",
+        "Support learners using screen readers and keyboards end to end."
+      ]
+    },
+    "children": {
+      "name": "Children and families",
+      "rules": { "contrast-text-min": 7, "contrast-ui-min": 3, "font-size-min": "16px", "touch-min": "56px", "dynamic-color": ["never"] },
+      "guidelines": [
+        "Any screen a child can reach has no ads, no dark patterns and no purchases without a parent gate.",
+        "Collect no personal data from children beyond what the service strictly needs; follow LGPD and COPPA rules for minors.",
+        "Use icons together with words; do not rely on reading alone.",
+        "Communication with parents or guardians states schedules, safety and contacts plainly."
+      ]
+    },
+    "sports-fitness": {
+      "name": "Sports and fitness",
+      "rules": { "contrast-text-min": 4.5, "contrast-ui-min": 3, "font-size-min": "14px", "touch-min": "48px", "dynamic-color": ["never", "opt-in", "default"] },
+      "guidelines": [
+        "Schedules, prices and locations are always one tap away and set in clear, large numerals.",
+        "Screens used outdoors or mid workout need high contrast and big targets.",
+        "Never promise guaranteed results; describe training, not outcomes.",
+        "Health related data (weight, heart rate, injuries) follows the health guidelines."
+      ]
+    },
+    "information-science": {
+      "name": "Information science and knowledge tools",
+      "rules": { "contrast-text-min": 4.5, "contrast-ui-min": 3, "font-size-min": "14px", "touch-min": "48px", "dynamic-color": ["never", "opt-in", "default"] },
+      "guidelines": [
+        "Long reading is set for comfort: reading face, generous line height, 60 to 75 characters per line.",
+        "Identifiers and classification codes use a monospaced face so they line up.",
+        "Every item shows where it is filed; nothing is lost without a trace (undo, trash, history).",
+        "The user's data can always be exported in an open format."
+      ]
+    },
+    "commerce": {
+      "name": "Commerce and retail",
+      "rules": { "contrast-text-min": 4.5, "contrast-ui-min": 3, "font-size-min": "14px", "touch-min": "48px", "dynamic-color": ["never", "opt-in"] },
+      "guidelines": [
+        "Total price, fees and delivery time are visible before checkout.",
+        "No pre checked add ons and no countdown pressure that is not real.",
+        "Product images have text alternatives."
+      ]
+    },
+    "arts-culture": {
+      "name": "Arts, crafts and culture",
+      "rules": { "contrast-text-min": 4.5, "contrast-ui-min": 3, "font-size-min": "14px", "touch-min": "48px", "dynamic-color": ["never", "opt-in"] },
+      "guidelines": [
+        "The work is the hero: neutral interface around images, no tinted overlays on artwork.",
+        "Credit the artist and give alt text for every work.",
+        "Images load progressively and stay sharp on large screens."
+      ]
+    },
+    "public-service": {
+      "name": "Government and public services",
+      "rules": { "contrast-text-min": 7, "contrast-ui-min": 3, "font-size-min": "16px", "touch-min": "48px", "dynamic-color": ["never"] },
+      "guidelines": [
+        "Meet WCAG 2.2 AA at minimum and the local legal standard (in Brazil, eMAG).",
+        "Plain language, one task per page.",
+        "Every form explains what is needed before it starts."
+      ]
+    }
+  }
+}

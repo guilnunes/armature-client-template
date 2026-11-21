@@ -1,10 +1,11 @@
 {
-  "engine": "1.0.0",
+  "engine": "1.1.0",
   "owner": "Client Name",
   "target": "main",
   "family": "Main",
   "settings": {
     "name": "Main",
+    "industry": [],
     "dynamic-color": "opt-in",
     "dynamic-color-reason": "Default for a new client; decide per brand.",
     "radius-component": "md",
@@ -31,6 +32,18 @@
         "license": "OFL"
       }
     }
+  },
+  "industries": [],
+  "rules": {
+    "contrast-text-min": 4.5,
+    "contrast-ui-min": 3,
+    "font-size-min": 14,
+    "touch-min": 48,
+    "dynamic-color": [
+      "never",
+      "opt-in",
+      "default"
+    ]
   },
   "signatures": {},
   "color": {

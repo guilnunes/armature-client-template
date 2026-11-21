@@ -17,9 +17,10 @@ Starting point for a client's own design system, built on the [Armature](https:/
 
 1. Create the repo from this template, private, named `<client>-ds`.
 2. In `client/owner.json` set the client's name and Android package.
-3. Replace the starter palette and fonts in `client/families/main/family.json` with the client's brand. Keep every role filled in light and dark.
-4. Run `node engine/build.mjs client`. It refuses to build while any text is below 4.5:1 or any control boundary below 3:1; change colors until it passes.
-5. Commit the source and `client/dist` together.
+3. Set `settings.industry` in each family (see the list in `engine/industries.json`; for example `["health"]`). The build then enforces that industry's rules and writes its guidelines to `client/docs/industry-rules.md`.
+4. Replace the starter palette and fonts in `client/families/main/family.json` with the client's brand. Keep every role filled in light and dark.
+5. Run `node engine/build.mjs client`. It refuses to build while any text is below 4.5:1 or any control boundary below 3:1; change colors until it passes.
+6. Commit the source and `client/dist` together.
 
 ## Outputs
 
@@ -29,7 +30,8 @@ Starting point for a client's own design system, built on the [Armature](https:/
 | Android (Jetpack Compose, Material 3) | `client/dist/android/<target>/ArmatureTheme.kt` |
 | iOS (SwiftUI) | `client/dist/ios/<target>/Armature.swift` |
 | Figma, agents | `client/dist/tokens/<target>.json` |
-| Contrast report | `client/docs/contrast-report.md` |
+| Contrast and rules report | `client/docs/contrast-report.md` |
+| Industry guidelines | `client/docs/industry-rules.md` |
 
 ## Updating the engine
 
