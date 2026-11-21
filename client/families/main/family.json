@@ -1,0 +1,129 @@
+{
+  "$description": "Starter family: a neutral grayscale with one blue, chosen only because it passes every contrast check. Replace the palette with the client's brand at kickoff.",
+  "settings": {
+    "name": "Main",
+    "dynamic-color": "opt-in",
+    "dynamic-color-reason": "Default for a new client; decide per brand.",
+    "radius-component": "md",
+    "radius-container": "lg",
+    "fonts": {
+      "display": {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "license": "OFL"
+      },
+      "ui": {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "license": "OFL"
+      },
+      "reading": {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "license": "OFL"
+      },
+      "mono": {
+        "family": "JetBrains Mono",
+        "fallback": "ui-monospace, monospace",
+        "license": "OFL"
+      }
+    }
+  },
+  "palette": {
+    "$type": "color",
+    "gray": {
+      "0": {
+        "$value": "#FFFFFF"
+      },
+      "50": {
+        "$value": "#F8F9FA"
+      },
+      "100": {
+        "$value": "#EEF0F2"
+      },
+      "300": {
+        "$value": "#CED3D8"
+      },
+      "500": {
+        "$value": "#6A737C"
+      },
+      "600": {
+        "$value": "#4F575E"
+      },
+      "800": {
+        "$value": "#212529"
+      },
+      "900": {
+        "$value": "#16191C"
+      },
+      "950": {
+        "$value": "#0D0F11"
+      }
+    },
+    "blue": {
+      "100": {
+        "$value": "#DCE8FB"
+      },
+      "300": {
+        "$value": "#8FB5F2"
+      },
+      "700": {
+        "$value": "#1D4ED8"
+      }
+    },
+    "red": {
+      "300": {
+        "$value": "#F49A9A"
+      },
+      "700": {
+        "$value": "#B42318"
+      }
+    }
+  },
+  "theme": {
+    "light": {
+      "background": "{palette.gray.50}",
+      "foreground": "{palette.gray.900}",
+      "card": "{palette.gray.0}",
+      "card-foreground": "{palette.gray.900}",
+      "popover": "{palette.gray.0}",
+      "popover-foreground": "{palette.gray.900}",
+      "primary": "{palette.blue.700}",
+      "primary-foreground": "{palette.gray.0}",
+      "secondary": "{palette.gray.100}",
+      "secondary-foreground": "{palette.gray.800}",
+      "muted": "{palette.gray.100}",
+      "muted-foreground": "{palette.gray.600}",
+      "accent": "{palette.blue.100}",
+      "accent-foreground": "{palette.gray.900}",
+      "destructive": "{palette.red.700}",
+      "destructive-foreground": "{palette.gray.0}",
+      "border": "{palette.gray.300}",
+      "input": "{palette.gray.500}",
+      "ring": "{palette.blue.700}",
+      "highlight": "{palette.blue.700}"
+    },
+    "dark": {
+      "background": "{palette.gray.950}",
+      "foreground": "{palette.gray.100}",
+      "card": "{palette.gray.900}",
+      "card-foreground": "{palette.gray.100}",
+      "popover": "{palette.gray.800}",
+      "popover-foreground": "{palette.gray.100}",
+      "primary": "{palette.blue.300}",
+      "primary-foreground": "{palette.gray.950}",
+      "secondary": "{palette.gray.800}",
+      "secondary-foreground": "{palette.gray.100}",
+      "muted": "{palette.gray.900}",
+      "muted-foreground": "{palette.gray.300}",
+      "accent": "{palette.gray.800}",
+      "accent-foreground": "{palette.blue.300}",
+      "destructive": "{palette.red.300}",
+      "destructive-foreground": "{palette.gray.950}",
+      "border": "{palette.gray.800}",
+      "input": "{palette.gray.500}",
+      "ring": "{palette.blue.300}",
+      "highlight": "{palette.blue.300}"
+    }
+  }
+}

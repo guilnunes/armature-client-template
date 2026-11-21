@@ -1,0 +1,296 @@
+{
+  "engine": "1.0.0",
+  "owner": "Client Name",
+  "target": "main",
+  "family": "Main",
+  "settings": {
+    "name": "Main",
+    "dynamic-color": "opt-in",
+    "dynamic-color-reason": "Default for a new client; decide per brand.",
+    "radius-component": "md",
+    "radius-container": "lg",
+    "fonts": {
+      "display": {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "license": "OFL"
+      },
+      "ui": {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "license": "OFL"
+      },
+      "reading": {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "license": "OFL"
+      },
+      "mono": {
+        "family": "JetBrains Mono",
+        "fallback": "ui-monospace, monospace",
+        "license": "OFL"
+      }
+    }
+  },
+  "signatures": {},
+  "color": {
+    "light": {
+      "background": "#F8F9FA",
+      "foreground": "#16191C",
+      "card": "#FFFFFF",
+      "card-foreground": "#16191C",
+      "popover": "#FFFFFF",
+      "popover-foreground": "#16191C",
+      "primary": "#1D4ED8",
+      "primary-foreground": "#FFFFFF",
+      "secondary": "#EEF0F2",
+      "secondary-foreground": "#212529",
+      "muted": "#EEF0F2",
+      "muted-foreground": "#4F575E",
+      "accent": "#DCE8FB",
+      "accent-foreground": "#16191C",
+      "destructive": "#B42318",
+      "destructive-foreground": "#FFFFFF",
+      "border": "#CED3D8",
+      "input": "#6A737C",
+      "ring": "#1D4ED8",
+      "highlight": "#1D4ED8"
+    },
+    "dark": {
+      "background": "#0D0F11",
+      "foreground": "#EEF0F2",
+      "card": "#16191C",
+      "card-foreground": "#EEF0F2",
+      "popover": "#212529",
+      "popover-foreground": "#EEF0F2",
+      "primary": "#8FB5F2",
+      "primary-foreground": "#0D0F11",
+      "secondary": "#212529",
+      "secondary-foreground": "#EEF0F2",
+      "muted": "#16191C",
+      "muted-foreground": "#CED3D8",
+      "accent": "#212529",
+      "accent-foreground": "#8FB5F2",
+      "destructive": "#F49A9A",
+      "destructive-foreground": "#0D0F11",
+      "border": "#212529",
+      "input": "#6A737C",
+      "ring": "#8FB5F2",
+      "highlight": "#8FB5F2"
+    }
+  },
+  "foundation": {
+    "$description": "Armature engine foundation: scales and accessibility rules every owner inherits. An owner may override scale values in owner.json 'foundation'; the a11y block can be made stricter, never looser.",
+    "space": {
+      "0": {
+        "$value": "0px"
+      },
+      "1": {
+        "$value": "4px"
+      },
+      "2": {
+        "$value": "8px"
+      },
+      "3": {
+        "$value": "12px"
+      },
+      "4": {
+        "$value": "16px"
+      },
+      "5": {
+        "$value": "20px"
+      },
+      "6": {
+        "$value": "24px"
+      },
+      "8": {
+        "$value": "32px"
+      },
+      "10": {
+        "$value": "40px"
+      },
+      "12": {
+        "$value": "48px"
+      },
+      "16": {
+        "$value": "64px"
+      },
+      "20": {
+        "$value": "80px"
+      },
+      "$type": "dimension"
+    },
+    "size": {
+      "$type": "dimension",
+      "touch-min": {
+        "$value": "48px",
+        "$description": "Hard floor for any tappable target (Android, WCAG 2.5.8 exceeded)"
+      },
+      "touch": {
+        "$value": "56px",
+        "$description": "Default height for buttons, list rows and inputs"
+      },
+      "icon-sm": {
+        "$value": "20px"
+      },
+      "icon": {
+        "$value": "24px"
+      },
+      "icon-lg": {
+        "$value": "32px"
+      },
+      "rule": {
+        "$value": "1px"
+      },
+      "focus-width-default": {
+        "$value": "2px",
+        "$description": "Used when the owner declares no focus signature"
+      },
+      "focus-offset-default": {
+        "$value": "2px"
+      }
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$description": "Major third scale (1.25) anchored on an 18px body. Larger than common defaults on purpose: low vision first.",
+      "caption": {
+        "$value": "14px",
+        "$description": "Smallest allowed text. Nothing below this, ever."
+      },
+      "label": {
+        "$value": "16px"
+      },
+      "body": {
+        "$value": "18px"
+      },
+      "body-lg": {
+        "$value": "20px"
+      },
+      "title-sm": {
+        "$value": "22px"
+      },
+      "title": {
+        "$value": "28px"
+      },
+      "headline": {
+        "$value": "35px"
+      },
+      "display": {
+        "$value": "44px"
+      },
+      "display-lg": {
+        "$value": "55px"
+      }
+    },
+    "line-height": {
+      "$type": "number",
+      "tight": {
+        "$value": 1.2
+      },
+      "snug": {
+        "$value": 1.35
+      },
+      "body": {
+        "$value": 1.55
+      },
+      "reading": {
+        "$value": 1.7
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$description": "Scale is fixed by the root. Families pick which step each component uses.",
+      "none": {
+        "$value": "0px"
+      },
+      "xs": {
+        "$value": "2px"
+      },
+      "sm": {
+        "$value": "4px"
+      },
+      "md": {
+        "$value": "8px"
+      },
+      "lg": {
+        "$value": "12px"
+      },
+      "xl": {
+        "$value": "20px"
+      },
+      "full": {
+        "$value": "9999px"
+      }
+    },
+    "a11y": {
+      "$description": "Rules enforced by scripts/check-contrast.mjs and by component reviews. Not rendered as CSS.",
+      "contrast-text-min": {
+        "$type": "number",
+        "$value": 4.5
+      },
+      "contrast-body-target": {
+        "$type": "number",
+        "$value": 7
+      },
+      "contrast-ui-min": {
+        "$type": "number",
+        "$value": 3
+      },
+      "font-scale-max-supported": {
+        "$type": "number",
+        "$value": 2,
+        "$description": "Layouts must survive 200% system font scale without clipping"
+      },
+      "reduced-motion": {
+        "$type": "string",
+        "$value": "respect",
+        "$description": "When the OS asks for reduced motion, all durations drop to instant and parallax is off"
+      }
+    },
+    "motion": {
+      "duration": {
+        "$type": "duration",
+        "instant": {
+          "$value": "80ms"
+        },
+        "quick": {
+          "$value": "160ms"
+        },
+        "base": {
+          "$value": "240ms"
+        },
+        "slow": {
+          "$value": "400ms"
+        }
+      },
+      "easing": {
+        "$type": "cubicBezier",
+        "standard": {
+          "$value": [
+            0.2,
+            0,
+            0,
+            1
+          ],
+          "$description": "Default enter/move curve when the owner declares none"
+        },
+        "exit": {
+          "$value": [
+            0.3,
+            0,
+            1,
+            1
+          ]
+        },
+        "linear": {
+          "$value": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    }
+  }
+}

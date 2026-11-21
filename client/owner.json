@@ -1,0 +1,7 @@
+{
+  "$description": "The client's owner layer. Everything under client/ belongs to the client. Fill in name and package at kickoff. Signatures are optional; if the client wants maker's marks of its own, define them here. Never copy Brander's.",
+  "name": "Client Name",
+  "package": "com.client",
+  "signatures": {},
+  "foundation": {}
+}

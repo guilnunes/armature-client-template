@@ -1,0 +1,124 @@
+{
+  "$description": "The semantic contract. Every family theme (light and dark) must give a value for every role below. Role names follow shadcn/ui, so web components work unchanged; 'material' is the Material 3 ColorScheme slot each role feeds on Android; 'swift' is the property name in the generated SwiftUI theme.",
+  "roles": {
+    "background": {
+      "material": "background",
+      "swift": "background",
+      "pairs": "foreground"
+    },
+    "foreground": {
+      "material": "onBackground",
+      "swift": "foreground"
+    },
+    "card": {
+      "material": "surfaceContainerLow",
+      "swift": "card",
+      "pairs": "card-foreground"
+    },
+    "card-foreground": {
+      "material": "onSurface",
+      "swift": "cardForeground"
+    },
+    "popover": {
+      "material": "surfaceContainerHigh",
+      "swift": "popover",
+      "pairs": "popover-foreground"
+    },
+    "popover-foreground": {
+      "material": null,
+      "swift": "popoverForeground"
+    },
+    "primary": {
+      "material": "primary",
+      "swift": "primary",
+      "pairs": "primary-foreground"
+    },
+    "primary-foreground": {
+      "material": "onPrimary",
+      "swift": "primaryForeground"
+    },
+    "secondary": {
+      "material": "secondaryContainer",
+      "swift": "secondary",
+      "pairs": "secondary-foreground"
+    },
+    "secondary-foreground": {
+      "material": "onSecondaryContainer",
+      "swift": "secondaryForeground"
+    },
+    "muted": {
+      "material": "surfaceVariant",
+      "swift": "muted",
+      "pairs": "muted-foreground"
+    },
+    "muted-foreground": {
+      "material": "onSurfaceVariant",
+      "swift": "mutedForeground"
+    },
+    "accent": {
+      "material": "tertiaryContainer",
+      "swift": "accent",
+      "pairs": "accent-foreground"
+    },
+    "accent-foreground": {
+      "material": "onTertiaryContainer",
+      "swift": "accentForeground"
+    },
+    "destructive": {
+      "material": "error",
+      "swift": "destructive",
+      "pairs": "destructive-foreground"
+    },
+    "destructive-foreground": {
+      "material": "onError",
+      "swift": "destructiveForeground"
+    },
+    "border": {
+      "material": "outlineVariant",
+      "swift": "border",
+      "$description": "Decorative dividers. Not required to reach 3:1, so never use it as the only boundary of a control."
+    },
+    "input": {
+      "material": "outline",
+      "swift": "input",
+      "ui": true,
+      "$description": "Border of inputs and other control boundaries (shadcn meaning). Must reach 3:1 against background."
+    },
+    "ring": {
+      "material": "secondary",
+      "swift": "ring",
+      "ui": true
+    },
+    "highlight": {
+      "material": "tertiary",
+      "swift": "highlight",
+      "ui": true,
+      "$description": "Family signature color for selection, marks and decoration. Never the only carrier of meaning."
+    }
+  },
+  "family-settings": {
+    "$description": "Each family declares these in family.json",
+    "dynamic-color": [
+      "never",
+      "opt-in",
+      "default"
+    ],
+    "radius-component": "which root radius step buttons, inputs and cards use",
+    "fonts": "display, ui, reading, mono"
+  },
+  "material-derived": {
+    "$description": "Material 3 slots with no role of their own, filled from a role so no Material default color leaks into the app.",
+    "surface": "background",
+    "surfaceBright": "card",
+    "surfaceDim": "muted",
+    "surfaceContainerLowest": "card",
+    "surfaceContainer": "card",
+    "surfaceContainerHighest": "muted",
+    "primaryContainer": "accent",
+    "onPrimaryContainer": "accent-foreground",
+    "onSecondary": "primary-foreground",
+    "onTertiary": "background",
+    "inverseSurface": "foreground",
+    "inverseOnSurface": "background"
+  }
+}
