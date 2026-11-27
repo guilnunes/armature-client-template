@@ -13,4 +13,4 @@ This repo is a client's own design system built on the Armature engine. Read `RE
 
 ## Status page
 
-At the end of every working session, update this client's project page in the Notion Projects database (find it by the client's name; if this repo is still the bare template, update "Armature: Brander design foundation", https://www.notion.so/41ffa617db4f8161950eec4be7157791): add a dated line to the status log, and set Status, Last surface, Last worked, Next step and Blocker.
+At the end of every working session, update this repo's project page in the Notion Projects database (find the row whose Repo field is this repo, or else by the project name; if this repo is still the bare template, update "Armature", https://www.notion.so/41ffa617db4f8161950eec4be7157791): add a dated line to the status log, and set Status, Last surface, Last worked, Next step and Blocker.
