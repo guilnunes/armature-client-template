@@ -9,8 +9,8 @@ Starting point for a client's own design system, built on the [Armature](https:/
 | `engine/` | Pinned copy of the Armature engine: role names, scales, accessibility rules, the build and its contrast checks | MIT licensed (see `engine/LICENSE`), usable by the client forever |
 | `engine.lock.json` | Which engine commit and version this copy came from | |
 | `client/owner.json` | Client name, package name, optional signatures of the client's own | The client |
-| `client/families/<family>/family.json` | Palette, fonts, radius choice, light and dark themes, Android dynamic color policy. Most clients need one family (`main`); add more for distinct product lines | The client |
-| `client/apps/<app>.json` | Per product overrides (primary color, icon motif) when the client has several apps | The client |
+| `client/families/<family>/family.json` | Palette, fonts, radius choice, light and dark themes, Android dynamic color policy. Most clients need one family (`main`); add more for distinct brands | The client |
+| `client/apps/<app>.json` | Per app overrides (primary color, icon motif) when the client has several apps | The client |
 | `client/dist/` | Generated outputs, never edited by hand | The client |
 
 ## Kickoff
